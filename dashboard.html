@@ -606,15 +606,22 @@ const BASE = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/od
 function buildUrl(indicator) {
   const meta = state.indicatorMap[indicator];
   const endpoint = meta.endpoint;
-  // A API do BCB exige os parâmetros OData com $ literal, não encodado
+
   const params = new URLSearchParams();
   params.set('$filter', `Indicador eq '${indicator}'`);
   params.set('$orderby', 'Data desc');
   params.set('$top', '500');
   params.set('$format', 'json');
-  params.set('$select', 'Indicador,Data,Mediana,Media,Minimo,Maximo,numeroRespondentes');
-  // URLSearchParams encoda $ como %24 — precisamos reverter isso
-  const qs = params.toString().replace(/%24/g, '$').replace(/%27/g, "'").replace(/%2C/g, ',');
+  params.set(
+    '$select',
+    'Indicador,Data,DataReferencia,Ano,Mediana,Media,Minimo,Maximo,numeroRespondentes'
+  );
+
+  const qs = params.toString()
+    .replace(/%24/g, '$')
+    .replace(/%27/g, "'")
+    .replace(/%2C/g, ',');
+
   return `${BASE}${endpoint}?${qs}`;
 }
 
