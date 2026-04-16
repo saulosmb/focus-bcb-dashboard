@@ -613,9 +613,9 @@ function buildUrl(indicator) {
   params.set('$top', '500');
   params.set('$format', 'json');
   params.set(
-    '$select',
-    'Indicador,Data,DataReferencia,Ano,Mediana,Media,Minimo,Maximo,numeroRespondentes'
-  );
+  '$select',
+  'Indicador,Data,DataReferencia,Ano,Mediana,Media,Minimo,Maximo,numeroRespondentes'
+  );;
 
   const qs = params.toString()
     .replace(/%24/g, '$')
