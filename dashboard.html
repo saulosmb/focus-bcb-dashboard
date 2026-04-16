@@ -606,23 +606,12 @@ const BASE = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/od
 function buildUrl(indicator) {
   const meta = state.indicatorMap[indicator];
   const endpoint = meta.endpoint;
-
-  const params = new URLSearchParams();
-  params.set('$filter', `Indicador eq '${meta.apiIndicator}'`);
-  params.set('$orderby', 'Data desc');
-  params.set('$top', '500');
-  params.set('$format', 'json');
-  params.set(
-    '$select',
-    'Indicador,Data,DataReferencia,Ano,Mediana,Media,Minimo,Maximo,numeroRespondentes'
-  );
-
-  const qs = params.toString()
-    .replace(/%24/g, '$')
-    .replace(/%27/g, "'")
-    .replace(/%2C/g, ',');
-
-  return `${BASE}${endpoint}?${qs}`;
+  return BASE + endpoint
+    + "?$filter=Indicador%20eq%20'" + encodeURIComponent(meta.apiIndicator) + "'"
+    + "&$orderby=Data%20desc"
+    + "&$top=500"
+    + "&$format=json"
+    + "&$select=Indicador,Data,DataReferencia,Mediana,Media,Minimo,Maximo,numeroRespondentes";
 }
 
 async function fetchData(indicator) {
