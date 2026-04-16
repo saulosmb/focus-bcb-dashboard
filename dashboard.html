@@ -549,11 +549,15 @@ const BASE = 'https://olinda.bcb.gov.br/olinda/servico/Expectativas/versao/v1/od
 // FIX 2: buildUrl sem URLSearchParams — monta a query string diretamente
 function buildUrl(indicator) {
   const meta = state.indicatorMap[indicator];
-  const filter = encodeURIComponent("Indicador eq '" + meta.apiIndicator + "'");
-  const select = encodeURIComponent('Indicador,Data,DataReferencia,Mediana,Media,Minimo,Maximo,numeroRespondentes');
+  const filter = encodeURIComponent(
+    "Indicador eq '" + meta.apiIndicator + "' and baseCalculo eq 0"
+  );
+  const select = encodeURIComponent(
+    'Indicador,Data,DataReferencia,baseCalculo,Mediana,Media,Minimo,Maximo,numeroRespondentes'
+  );
   return BASE + meta.endpoint
     + '?$filter=' + filter
-    + '&$orderby=Data%20desc'
+    + '&$orderby=Data%20desc,DataReferencia%20asc'
     + '&$top=500'
     + '&$format=json'
     + '&$select=' + select;
